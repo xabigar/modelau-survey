@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ModelaU · Cuestionario para docentes</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo">M</span><div><strong>ModelaU</strong><small>Cuestionario para docentes de modelado</small></div></div>
+  <div class="prog" aria-live="polite"><span id="stepLabel"></span><div class="bar"><i id="barFill"></i></div></div>
+</header>
+
+<main id="app" tabindex="-1"></main>
+
+<button id="floatVideo" class="float" type="button" hidden>▶ Ver el vídeo</button>
+
+<dialog id="videoDialog" aria-labelledby="dlgTitle">
+  <div class="dlg-head"><h2 id="dlgTitle">Así se veía en el vídeo</h2><button id="dlgClose" type="button" aria-label="Cerrar">×</button></div>
+  <video id="dlgVideo" controls playsinline preload="metadata"></video>
+  <p class="dlg-note" id="dlgNote"></p>
+  <div class="chapters" id="dlgChapters"></div>
+</dialog>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ModelaU · Administración del cuestionario</title>
+<style>
+:root{--paper:#eef1f4;--panel:#fff;--ink:#233044;--muted:#667386;--line:#d7dde5;--accent:#a80036;font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper)}
+header{background:var(--panel);border-bottom:2px solid var(--accent);padding:12px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header h1{font-size:19px;margin:0}main{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
+section{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:0 0 18px}
+h2{font-size:17px;margin:0 0 12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{border:1px solid var(--line);border-radius:8px;padding:10px 12px}.stat b{display:block;font-size:26px}.stat span{color:var(--muted);font-size:13px}
+button,.btn{font:inherit;border:1px solid var(--line);background:#fff;color:var(--ink);padding:6px 12px;border-radius:6px;cursor:pointer;text-decoration:none;display:inline-block}
+button:hover,.btn:hover{border-color:var(--accent);color:var(--accent)}button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+input[type=number]{width:70px;font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:6px}
+code{background:#f0f2f5;border-radius:4px;padding:1px 5px;font-size:13px}
+.dist{display:flex;height:14px;border-radius:3px;overflow:hidden;background:#eef1f4;min-width:120px}.dist i{display:block;height:100%}
+.muted{color:var(--muted)}.used{color:#238455}.warn{background:#fff0c9;border-radius:6px;padding:8px 12px;margin-bottom:12px}
+blockquote{margin:6px 0;padding:6px 12px;border-left:3px solid var(--accent);background:#fafbfc;white-space:pre-wrap}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+dialog{width:min(850px,94vw);max-height:88vh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:22px}dialog::backdrop{background:#23304480}.detail-answer{white-space:pre-wrap;margin:4px 0 16px;padding:8px 12px;background:#f0f5fa;border-radius:6px}
+</style></head><body>
+<header><h1>ModelaU · Administración del cuestionario</h1><div class="row" style="margin:0"><a class="btn" href="/admin/preview" target="_blank" rel="noopener">Previsualizar cuestionario</a><button id="refresh">Actualizar</button><button id="dlCsv" class="primary">Descargar CSV</button><a class="btn" href="/admin/api/responses.jsonl">Descargar JSONL</a></div></header>
+<main>
+  <section><h2>Resumen</h2><div class="cards" id="stats"></div></section>
+  <section id="invSec"><h2>Enlaces de invitación</h2><div id="invWarn"></div>
+    <div class="row"><button id="invGo" class="primary">Generar un enlace</button><button id="invCopy">Copiar los no usados</button></div>
+    <table id="invTable"><thead><tr><th>Enlace</th><th>Creado</th><th>Estado</th><th></th></tr></thead><tbody></tbody></table></section>
+  <section><div class="row"><h2 style="margin:0">Respuestas</h2><button id="deleteAll">Borrar todas las respuestas</button></div><p class="muted">Puedes borrar respuestas de prueba de una en una o todas juntas. Las invitaciones usadas siguen usadas.</p><p id="responseStatus" role="status"></p><table id="respTable"><thead><tr><th>Participante anónimo</th><th>Día</th><th>Orden de columnas (parte A)</th><th>Vídeo visto</th><th></th></tr></thead><tbody></tbody></table></section>
+  <section><h2>Puntuaciones por afirmación</h2><p class="muted">Escala 1–5; «No lo sé» no cuenta. La barra muestra el reparto de 1 (izquierda, claro) a 5 (derecha, oscuro).</p><table id="sumTable"><thead><tr><th>Variable</th><th>Afirmación</th><th>n</th><th>Mediana</th><th>Media</th><th>Reparto 1–5</th></tr></thead><tbody></tbody></table></section>
+  <section><h2>Comentarios abiertos</h2><div id="comments"></div></section>
+</main>
+<dialog id="responseDialog" aria-labelledby="responseTitle"><div class="row"><h2 id="responseTitle" style="margin:0"></h2><button id="closeResponse">Cerrar</button></div><div id="responseDetail"></div></dialog>
+<dialog id="deleteDialog" aria-labelledby="deleteTitle">
+  <h2 id="deleteTitle">Borrar todas las respuestas</h2>
+  <p id="deleteWarning"></p>
+  <p>Se borrarán también sus puntuaciones y comentarios. Esta acción no se puede deshacer. Las invitaciones no se modifican.</p>
+  <div class="row"><button id="cancelDelete">Cancelar</button><button id="confirmDelete" class="primary">Estoy seguro, borrar todas</button></div>
+</dialog>
+<script type="module">
+import { SCALE, NA, DIMS, VARIABLES, A, B, B_INTEGRATED, C, D, PART0 } from '/content.js';
+const $ = id => document.getElementById(id);
+const el = (t, props = {}, ...kids) => { const e = Object.assign(document.createElement(t), props); for (const k of kids) e.append(k); return e; };
+const post = (u, b) => fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b || {}) });
+const med = a => { const s = [...a].sort((x, y) => x - y); const m = s.length >> 1; return s.length ? (s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2) : null; };
+const label = v => {
+  if (v.startsWith('A_')) { const a = A.find(x => v.startsWith(`A_${x.key}_`)); return `${v.endsWith('_mu') ? 'ModelaU' : 'Chat'} · ${a.label}`; }
+  if (v.startsWith('B_') && v !== 'B_integrated') { const b = B.find(x => v.startsWith(`B_${x.key}_`)); return `${b.name} · ${v.endsWith('_rel') ? 'relevancia' : 'estorbaría'}`; }
+  if (v === 'B_integrated') return 'Todo en un mismo espacio';
+  if (v.startsWith('C_')) return C.find(c => `C_${c.key}` === v).text;
+  return v;
+};
+let data = null;
+function showResponse(r, number) {
+  $('responseTitle').textContent = `Participante ${number}${r.simulated ? ' · Respuesta simulada' : ''}`;
+  const detail = $('responseDetail');
+  detail.replaceChildren(el('p', { className: 'muted', textContent: `Día: ${r.day} · Orden: ${r.version === 'mu_first' ? 'ModelaU primero' : 'Chat primero'} · Vídeo visto: ${r.video_pct == null ? 'Sin dato' : Math.round(r.video_pct * 100) + '%'}` }), el('p', { className: 'muted', textContent: `ID anónimo: ${r.id}` }));
+  const answer = (question, key, scaled = false) => {
+    const value = r.answers[key];
+    const text = value === undefined || value === '' ? 'Sin responder'
+      : value === null ? NA
+      : scaled && Number.isInteger(value) && value >= 1 && value <= 5 ? `${value} · ${SCALE[value - 1]}` : String(value);
+    detail.append(el('p', { textContent: question, style: 'font-weight:600;margin-bottom:0' }), el('p', { className: 'detail-answer', textContent: text }));
+  };
+  detail.append(el('h3', { textContent: 'Perfil y vídeo' }));
+  PART0.forEach(q => answer(q.q, q.id));
+  detail.append(el('h3', { textContent: 'ModelaU frente a un chat convencional' }));
+  A.forEach(a => ['mu', 'chat'].forEach(k => answer(`${k === 'mu' ? 'ModelaU' : 'Chat convencional'}: la retroalimentación ${a.text}.`, `A_${a.key}_${k}`, true)));
+  detail.append(el('h3', { textContent: 'Los ocho mecanismos' }));
+  B.forEach(b => {
+    answer(`${b.name}: ayuda a que la retroalimentación ${DIMS[b.dim].adj}.`, `B_${b.key}_rel`, true);
+    answer(`${b.name}: estorbaría al estudiante mientras modela.`, `B_${b.key}_intr`, true);
+  });
+  answer(B_INTEGRATED.text, 'B_integrated', true);
+  detail.append(el('h3', { textContent: 'Utilidad y adopción' }));
+  C.forEach(c => answer(c.text, `C_${c.key}`, true));
+  detail.append(el('h3', { textContent: 'Comentarios sobre ModelaU' }));
+  D.forEach(q => answer(q.q, q.id));
+  $('responseDialog').showModal();
+}
+$('closeResponse').onclick = () => $('responseDialog').close();
+async function load() {
+  data = await (await fetch('/admin/api/data')).json();
+  const R = data.responses, inv = data.invites;
+  $('deleteAll').disabled = !R.length;
+  const pct = R.map(r => r.video_pct).filter(x => x != null);
+  $('stats').replaceChildren(...[
+    [R.length, 'respuestas'], [R.filter(r => r.version === 'mu_first').length + ' / ' + R.filter(r => r.version === 'chat_first').length, 'orden ModelaU primero / chat primero'],
+    [pct.length ? Math.round(100 * pct.reduce((a, b) => a + b, 0) / pct.length) + '%' : '–', 'vídeo visto, media'], [inv.filter(i => i.used).length + ' / ' + inv.length, 'invitaciones usadas'],
+  ].map(([n, t]) => el('div', { className: 'stat' }, el('b', { textContent: n }), el('span', { textContent: t }))));
+  // invitations
+  $('invWarn').replaceChildren(data.requireInvite ? el('p', { className: 'muted', textContent: 'Los envíos exigen un enlace personal sin usar (REQUIRE_INVITE=1). Cada código se consume al enviar y no se guarda junto a las respuestas.' })
+    : el('p', { className: 'warn', textContent: 'El servidor está en modo abierto: cualquiera con el enlace general puede enviar, y varias veces. Para exigir un enlace personal arranca con REQUIRE_INVITE=1.' }));
+  const tb = $('invTable').tBodies[0]; tb.replaceChildren();
+  for (const i of inv.sort((a, b) => a.used - b.used)) {
+    const url = `${location.origin}/?k=${i.code}`;
+    const copy = el('button', { textContent: 'Copiar', onclick: () => navigator.clipboard.writeText(url) });
+    const del = el('button', { textContent: 'Borrar', disabled: i.used, onclick: async () => { await post('/admin/api/delete-invite', { code: i.code }); load(); } });
+    tb.append(el('tr', {}, el('td', {}, el('code', { textContent: url })), el('td', { textContent: i.created }), el('td', { className: i.used ? 'used' : '', textContent: i.used ? 'usado ' + (i.usedDay || '') : 'sin usar' }), el('td', {}, copy, ' ', del)));
+  }
+  // responses
+  const rb = $('respTable').tBodies[0]; rb.replaceChildren();
+  for (const [index, r] of R.entries()) rb.append(el('tr', {}, el('td', { textContent: `Participante ${index + 1}${r.simulated ? ' · Simulado' : ''}` }), el('td', { textContent: r.day }), el('td', { textContent: r.version === 'mu_first' ? 'ModelaU, chat' : 'chat, ModelaU' }),
+    el('td', { textContent: r.video_pct == null ? '–' : Math.round(r.video_pct * 100) + '%' }),
+    el('td', {}, el('button', { textContent: 'Ver respuesta', onclick: () => showResponse(r, index + 1) }), ' ', el('button', { textContent: 'Borrar respuesta', onclick: async () => { if (confirm('¿Borrar esta respuesta y sus comentarios? No se puede deshacer. La invitación seguirá usada.')) { try { const result = await post('/admin/api/delete-response', { id: r.id }); if (!result.ok) throw new Error(); await load(); $('responseStatus').textContent = 'Respuesta borrada.'; } catch { $('responseStatus').textContent = 'No se pudo borrar la respuesta. Inténtalo de nuevo.'; } } } }))));
+  // summary
+  const sb = $('sumTable').tBodies[0]; sb.replaceChildren();
+  const shades = ['#fbe9ef', '#f3bfd0', '#e48ba8', '#c9456f', '#a80036'];
+  for (const v of VARIABLES.filter(v => /^(A_|B_|C_)/.test(v))) {
+    const vals = R.map(r => r.answers[v]).filter(x => typeof x === 'number');
+    const cnt = [1, 2, 3, 4, 5].map(k => vals.filter(x => x === k).length);
+    const dist = el('div', { className: 'dist', title: cnt.join(' · ') }, ...cnt.map((c, i) => el('i', { style: `width:${vals.length ? 100 * c / vals.length : 0}%;background:${shades[i]}` })));
+    sb.append(el('tr', {}, el('td', {}, el('code', { textContent: v })), el('td', { textContent: label(v) }), el('td', { textContent: vals.length }), el('td', { textContent: vals.length ? med(vals) : '–' }),
+      el('td', { textContent: vals.length ? (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2) : '–' }), el('td', {}, dist)));
+  }
+  // comments
+  const cm = $('comments'); cm.replaceChildren();
+  for (const q of [...D.filter(d => d.type === 'text'), ...PART0.filter(p => p.type === 'text')]) {
+    const texts = R.map(r => r.answers[q.id]).filter(t => typeof t === 'string' && t.trim());
+    cm.append(el('h3', { textContent: `${q.q} (${texts.length})`, style: 'font-size:15px;margin:14px 0 4px' }), ...texts.map(t => el('blockquote', { textContent: t })));
+  }
+}
+$('refresh').onclick = load;
+$('invGo').onclick = async () => {
+  $('invGo').disabled = true;
+  try { const result = await post('/admin/api/invites', { n: 1 }); if (!result.ok) throw new Error(); await load(); }
+  catch { alert('No se pudo generar el enlace. Inténtalo de nuevo.'); }
+  finally { $('invGo').disabled = false; }
+};
+let deletionIds = [];
+$('deleteAll').onclick = () => {
+  deletionIds = data.responses.map(r => r.id);
+  $('deleteWarning').textContent = `Vas a borrar las ${deletionIds.length} respuestas actuales.`;
+  $('deleteDialog').showModal();
+};
+$('cancelDelete').onclick = () => $('deleteDialog').close();
+$('confirmDelete').onclick = async () => {
+  $('confirmDelete').disabled = true;
+  try {
+    const result = await post('/admin/api/delete-all-responses', { confirm: true, ids: deletionIds });
+    if (!result.ok) throw new Error(result.status === 409 ? 'Han cambiado las respuestas. Revisa la lista y vuelve a intentarlo.' : 'No se pudieron borrar las respuestas. Inténtalo de nuevo.');
+    await load(); $('responseStatus').textContent = 'Todas las respuestas se han borrado.';
+  } catch (error) { $('responseStatus').textContent = error.message; await load(); }
+  finally { $('deleteDialog').close(); $('confirmDelete').disabled = false; }
+};
+$('invCopy').onclick = () => navigator.clipboard.writeText(data.invites.filter(i => !i.used).map(i => `${location.origin}/?k=${i.code}`).join('\n'));
+$('dlCsv').onclick = () => {
+  const cell = v => v === null || v === undefined ? '' : /[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : String(v);
+  const rows = [['id', 'day', 'version', 'video_pct', ...VARIABLES].join(','), ...data.responses.map(r => [r.id, r.day, r.version, r.video_pct, ...VARIABLES.map(v => r.answers[v])].map(cell).join(','))];
+  const a = el('a', { href: URL.createObjectURL(new Blob(['﻿' + rows.join('\n')], { type: 'text/csv' })), download: 'responses.csv' }); a.click();
+};
+load();
+</script></body></html>
