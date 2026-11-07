@@ -113,7 +113,7 @@ ADMIN_PASSWORD='una-larga-y-propia' REQUIRE_INVITE=1 PORT=3200 node server.js
 Hecho y probado en navegador y con `curl`: seis pasos, escalas, vídeo con salto a momentos, envío, borrador y reanudación, panel de admin, invitaciones de un solo uso, CSV/JSONL.
 
 **No hecho / por revisar**
-- [ ] **Desplegar** (mismo servidor que ModelaU u otro) detrás de HTTPS, con proceso gestionado (systemd/pm2), logs de IP del proxy apagados y copia periódica de `data/`.
+- [x] **Desplegado** en https://cuestionario.garmendia.eus (`/opt/modelau-survey`, contenedor `modelau-survey`, `127.0.0.1:3006`, nginx con `access_log off`). Repo público: https://github.com/xabigar/modelau-survey. Pendiente: copia periódica de `data/`.
 - [ ] Probar en **móviles reales** y con lector de pantalla (hay `role=radiogroup`, `aria-label` y foco visible, pero no se ha auditado).
 - [ ] **Decisión de la página 3** (parte A): se rehízo (respuestas fijas + filas compactas + bloques «Nicol»/«otros»); el usuario dudaba del diseño anterior. Confirmar que ahora gusta.
 - [ ] **¿Los instructores probarán la herramienta?** El usuario comentó que «la van a poder probar». Si E2 pasa a incluir uso real, hay que reescribir §6.2 del paper, el cuestionario (hoy «expected usefulness», no «use») y probablemente añadir SUS/TAM tras el uso.

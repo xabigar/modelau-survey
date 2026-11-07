@@ -24,6 +24,29 @@ node export.mjs > responses.csv                                                #
 Environment variables: `PORT` (default 3200); `ADMIN_PASSWORD` (enables `/admin`; without it the admin area does not exist);
 `REQUIRE_INVITE=1` (only people with an unused personal link can submit).
 
+## Deployment
+
+Live at <https://cuestionario.garmendia.eus> on the `garmendia.eus` server (Hetzner).
+
+```
+/opt/modelau-survey     clone of this repo (git@github.com:xabigar/modelau-survey.git)
+docker                  image modelau-survey-survey, container modelau-survey, restart: unless-stopped
+127.0.0.1:3006 -> 3000  port bound to loopback only; ./data is a bind mount so answers survive rebuilds
+/etc/nginx/sites-available/modelau-survey   TLS proxy (Let's Encrypt), access_log off
+/opt/modelau-survey/.env                    ADMIN_PASSWORD, REQUIRE_INVITE=1  (mode 600, not versioned)
+```
+
+Update it:
+
+```bash
+ssh root@garmendia.eus
+cd /opt/modelau-survey && git pull --ff-only && docker compose up -d --build
+curl -s http://127.0.0.1:3006/api/invite?k=x      # {"required":true,...}
+```
+
+`data/` is git-ignored: answers and invitation codes never reach the public repository. nginx has `access_log off` so
+respondents' IPs are not recorded; keep it that way, and take periodic backups of `data/`.
+
 ## Several respondents, one admin
 
 - **Respondents**: each browser is independent; the server appends each submission to `data/responses.jsonl` (one process, no clashes).
