@@ -22,6 +22,7 @@ node export.mjs > responses.csv                                                #
 ```
 
 Environment variables: `PORT` (default 3200); `ADMIN_PASSWORD` (enables `/admin`; without it the admin area does not exist);
+`ADMIN_USER` (optional: the user name the admin panel requires; without it any user name is accepted);
 `REQUIRE_INVITE=1` (only people with an unused personal link can submit).
 
 ## Deployment
@@ -50,7 +51,7 @@ respondents' IPs are not recorded; keep it that way, and take periodic backups o
 ## Several respondents, one admin
 
 - **Respondents**: each browser is independent; the server appends each submission to `data/responses.jsonl` (one process, no clashes).
-- **Admin** (`/admin`, HTTP Basic auth, any user name + `ADMIN_PASSWORD`): counters, personal invitation links (generate N, copy, delete
+- **Admin** (`/admin`, HTTP Basic auth: `ADMIN_USER` + `ADMIN_PASSWORD`; without `ADMIN_USER` any user name is accepted): counters, personal invitation links (generate N, copy, delete
   unused), the list of responses (delete test ones), medians/means/distribution per statement, the open comments, and downloads
   (CSV built in the page, or the raw JSONL).
 - **Invitation links** (`/?k=CODE`): the code is checked when the page opens and *consumed when the answers are submitted*; it is stored in

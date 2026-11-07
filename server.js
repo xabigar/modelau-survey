@@ -13,6 +13,7 @@ const DATA = path.join(ROOT, 'data');
 const PORT = Number(process.env.PORT || 3200);
 mkdirSync(DATA, { recursive: true });
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';          // empty -> /admin is disabled
+const ADMIN_USER = process.env.ADMIN_USER || '';                  // empty -> any user name is accepted
 const REQUIRE_INVITE = process.env.REQUIRE_INVITE === '1';         // 1 -> only people with an unused personal code can submit
 const RESP = path.join(DATA, 'responses.jsonl');
 const INV = path.join(DATA, 'invites.json');
@@ -23,8 +24,13 @@ const hash = x => createHash('sha256').update(String(x)).digest();
 function isAdmin(req) {
   if (!ADMIN_PASSWORD) return false;
   const m = /^Basic (.+)$/.exec(req.headers.authorization || ''); if (!m) return false;
-  const pass = Buffer.from(m[1], 'base64').toString('utf8').split(':').slice(1).join(':');
-  return timingSafeEqual(hash(pass), hash(ADMIN_PASSWORD));
+  const decoded = Buffer.from(m[1], 'base64').toString('utf8');
+  const i = decoded.indexOf(':');
+  const user = i === -1 ? '' : decoded.slice(0, i);
+  const pass = i === -1 ? decoded : decoded.slice(i + 1);
+  const okPass = timingSafeEqual(hash(pass), hash(ADMIN_PASSWORD));
+  const okUser = ADMIN_USER ? timingSafeEqual(hash(user), hash(ADMIN_USER)) : true;
+  return okPass && okUser;
 }
 const readBody = (req, res, cb, max = 200000) => {
   let size = 0; const chunks = [];
