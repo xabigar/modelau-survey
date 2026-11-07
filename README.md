@@ -34,7 +34,7 @@ Live at <https://cuestionario.garmendia.eus> on the `garmendia.eus` server (Hetz
 docker                  image modelau-survey-survey, container modelau-survey, restart: unless-stopped
 127.0.0.1:3006 -> 3000  port bound to loopback only; ./data is a bind mount so answers survive rebuilds
 /etc/nginx/sites-available/modelau-survey   TLS proxy (Let's Encrypt), access_log off
-/opt/modelau-survey/.env                    ADMIN_PASSWORD, REQUIRE_INVITE=1  (mode 600, not versioned)
+/opt/modelau-survey/.env                    ADMIN_USER, ADMIN_PASSWORD, REQUIRE_INVITE=1  (mode 600, not versioned)
 ```
 
 Update it:
