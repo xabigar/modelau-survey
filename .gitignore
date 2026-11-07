@@ -1,6 +1,9 @@
 node_modules
 .DS_Store
 
+# Admin password: never versioned
+.env
+
 # Respondents' answers and invitation codes: never versioned
 data/responses.jsonl
 data/invites.json
