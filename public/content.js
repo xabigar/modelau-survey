@@ -17,12 +17,17 @@ export const MOMENTS = {
   step: { t: T('s1'), len: 14 }, vocab: { t: T('s9'), len: 20 }, integrated: { t: T('s5'), len: 14 },
 };
 
+export const NO_MODELAU_USE = 'No lo he usado';
+
 export const PART0 = [
   { id: 'exp_years', q: '¿Cuántos años llevas enseñando UML o modelado?', type: 'choice', options: ['0 a 2', '3 a 5', '6 a 10', 'Más de 10'] },
   { id: 'courses', q: '¿En qué asignaturas enseñas o has enseñado UML o modelado?', type: 'text' },
   { id: 'university', q: '¿En qué universidad enseñas o has enseñado UML o modelado?', type: 'text' },
   { id: 'ai_use', q: '¿Has usado asistentes de IA (chats) en tu docencia?', type: 'choice', options: ['Nunca', 'Alguna vez', 'Habitualmente'] },
   { id: 'watched', q: '¿Has visto el vídeo completo?', type: 'choice', options: ['Entero', 'La mayor parte', 'Solo una parte'] },
+  { id: 'modelau_use', q: '¿Cómo has usado ModelaU?', type: 'choice',
+    options: [NO_MODELAU_USE, 'Lo he explorado sin trabajar en un ejercicio', 'Lo he usado para trabajar en un ejercicio', 'Lo he usado para trabajar en varios ejercicios'] },
+  { id: 'modelau_experience', q: 'Si has usado ModelaU, describe tu experiencia.', type: 'text', optional: true },
 ];
 
 // Nicol's four feedback-quality dimensions, as defined in the paper (kernel theory), in plain Spanish.

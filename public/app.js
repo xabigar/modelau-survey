@@ -1,5 +1,5 @@
 import { EN } from './en.js';
-import { SCALE, NA, CHAPTERS, MOMENTS, DIMS, PART0, A, B, B_INTEGRATED, B_INTR, C, D, VARIABLES } from './content.js';
+import { SCALE, NA, CHAPTERS, MOMENTS, DIMS, PART0, A, B, B_INTEGRATED, B_INTR, C, D, VARIABLES, NO_MODELAU_USE } from './content.js';
 
 const $ = id => document.getElementById(id);
 const app = $('app');
@@ -126,8 +126,16 @@ function renderIntro() {
   </section>
   <div class="nav"><span></span><button class="primary" data-next>${t("He visto el vídeo · Continuar →")}</button></div>`;
 }
+function triedModelaU() {
+  const usage = st.answers.modelau_use;
+  return Boolean(usage && usage !== NO_MODELAU_USE);
+}
+
 function renderPart0() {
-  return `<h1>${t("Sobre ti")}</h1><p class="lead">${t("Responde las preguntas de perfil para continuar.")}</p><div class="card">${PART0.map(field).join('')}</div>${nav()}`;
+  const questions = PART0.map(q => q.id === 'modelau_experience'
+    ? `<div id="modelauExperience" ${triedModelaU() ? '' : 'hidden'}>${field(q)}</div>`
+    : field(q));
+  return `<h1>${t("Sobre ti")}</h1><p class="lead">${t("Responde las preguntas de perfil para continuar.")}</p><div class="card">${questions.join('')}</div>${nav()}`;
 }
 function renderA() {
   const first = st.version === 'mu_first' ? ['mu', 'chat'] : ['chat', 'mu'];
@@ -201,6 +209,8 @@ function render() {
     });
   }
 }
+const requiredProfile = PART0.filter(q => !q.optional).map(q => q.id);
+
 function missingAnswer(key) {
   const value = st.answers[key];
   return value === undefined || (typeof value === 'string' && !value.trim());
@@ -208,7 +218,7 @@ function missingAnswer(key) {
 
 function validateStep() {
   if (preview) return true;
-  const required = st.step === 1 ? PART0.map(q => q.id)
+  const required = st.step === 1 ? requiredProfile
     : st.step === 2 ? A.flatMap(a => [`A_${a.key}_mu`, `A_${a.key}_chat`])
     : st.step === 3 ? [...B.flatMap(b => [`B_${b.key}_rel`, `B_${b.key}_intr`]), 'B_integrated']
     : st.step === 4 ? C.map(c => `C_${c.key}`) : [];
@@ -226,6 +236,7 @@ const go = d => { if (d > 0 && !validateStep()) return; resumed = false; st.step
 app.addEventListener('change', e => {
   const t = e.target; if (!t.name) return;
   if (t.type === 'radio') st.answers[t.name] = /^[1-5]$/.test(t.value) ? Number(t.value) : (t.value === 'na' ? 'na' : t.value);
+  if (t.name === 'modelau_use') $('modelauExperience').hidden = !triedModelaU();
   save();
 });
 app.addEventListener('input', e => { const t = e.target; if (t.tagName === 'TEXTAREA' || t.type === 'text') { st.answers[t.name] = t.value; save(); } });
@@ -247,7 +258,7 @@ async function submit() {
   if (preview) { $('submitMsg').textContent = t("Fin de la previsualización. No se han enviado ni guardado respuestas."); return; }
   const missing = SCALED.filter(k => st.answers[k] === undefined).length;
   const msg = $('submitMsg');
-  const missingProfile = PART0.some(q => missingAnswer(q.id));
+  const missingProfile = requiredProfile.some(missingAnswer);
   if (missing || missingProfile) {
     msg.textContent = t("Hay preguntas obligatorias sin responder. Revisa los pasos anteriores antes de enviar.");
     return;
@@ -255,6 +266,7 @@ async function submit() {
   const btn = $('submitBtn'); btn.disabled = true; $('language').disabled = true; msg.textContent = t("Enviando…");
   const answers = {};
   for (const key of VARIABLES) {
+    if (key === 'modelau_experience' && !triedModelaU()) continue;
     const value = st.answers[key];
     if (value !== undefined) answers[key] = value === 'na' ? null : value;
   }

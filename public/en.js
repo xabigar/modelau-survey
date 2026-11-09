@@ -160,5 +160,11 @@ export const EN = {
   "¿Qué cosas te han gustado de ModelaU?": "What did you like about ModelaU?",
   "¿Qué cosas no te han gustado de ModelaU?": "What did you dislike about ModelaU?",
   "Para dejar tus comentarios": "Any other comments",
-  "Explicado con una tarjeta, no se ve en vivo": "Explained on a slide, without a live demonstration"
+  "Explicado con una tarjeta, no se ve en vivo": "Explained on a slide, without a live demonstration",
+  "¿Cómo has usado ModelaU?": "How have you used ModelaU?",
+  "Si has usado ModelaU, describe tu experiencia.": "If you have used ModelaU, describe your experience.",
+  "No lo he usado": "I haven’t used it",
+  "Lo he explorado sin trabajar en un ejercicio": "I explored it without working on an exercise",
+  "Lo he usado para trabajar en un ejercicio": "I used it to work on one exercise",
+  "Lo he usado para trabajar en varios ejercicios": "I used it to work on several exercises",
 };

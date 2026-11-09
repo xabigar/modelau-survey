@@ -178,6 +178,62 @@
               }
             }
           ]
+        },
+        {
+          "id": "modelau_use",
+          "type": "choice",
+          "required": true,
+          "text": {
+            "es": "¿Cómo has usado ModelaU?",
+            "en": "How have you used ModelaU?"
+          },
+          "options": [
+            {
+              "value": "No lo he usado",
+              "label": {
+                "es": "No lo he usado",
+                "en": "I haven’t used it"
+              }
+            },
+            {
+              "value": "Lo he explorado sin trabajar en un ejercicio",
+              "label": {
+                "es": "Lo he explorado sin trabajar en un ejercicio",
+                "en": "I explored it without working on an exercise"
+              }
+            },
+            {
+              "value": "Lo he usado para trabajar en un ejercicio",
+              "label": {
+                "es": "Lo he usado para trabajar en un ejercicio",
+                "en": "I used it to work on one exercise"
+              }
+            },
+            {
+              "value": "Lo he usado para trabajar en varios ejercicios",
+              "label": {
+                "es": "Lo he usado para trabajar en varios ejercicios",
+                "en": "I used it to work on several exercises"
+              }
+            }
+          ]
+        },
+        {
+          "id": "modelau_experience",
+          "type": "text",
+          "required": false,
+          "text": {
+            "es": "Si has usado ModelaU, describe tu experiencia.",
+            "en": "If you have used ModelaU, describe your experience."
+          },
+          "showWhen": {
+            "question": "modelau_use",
+            "values": [
+              "Lo he explorado sin trabajar en un ejercicio",
+              "Lo he usado para trabajar en un ejercicio",
+              "Lo he usado para trabajar en varios ejercicios"
+            ]
+          }
         }
       ]
     },
