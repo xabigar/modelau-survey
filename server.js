@@ -81,15 +81,28 @@ const server = http.createServer((req, res) => {
       if (['courses', 'university'].some(key => typeof answers[key] !== 'string' || !answers[key].trim())) {
         return send(res, 400, 'missing required profile answers');
       }
-      if (REQUIRE_INVITE) {                                                  // the code is consumed here and never stored with the answers
-        const inv = loadInvites(); const c = String(body.invite || '');
-        if (!inv[c]) return send(res, 403, JSON.stringify({ error: 'invalid_invite' }), 'application/json');
-        if (inv[c].used) return send(res, 409, JSON.stringify({ error: 'used_invite' }), 'application/json');
-        inv[c].used = true; inv[c].usedDay = new Date().toISOString().slice(0, 10); saveInvites(inv);
+      const submittedAt = new Date().toISOString();
+      let inv = null, code = '';
+      if (REQUIRE_INVITE) {                                                  // check first, consume only after the answers are safely stored
+        inv = loadInvites(); code = String(body.invite || '');
+        if (!inv[code]) return send(res, 403, JSON.stringify({ error: 'invalid_invite' }), 'application/json');
+        if (inv[code].used) return send(res, 409, JSON.stringify({ error: 'used_invite' }), 'application/json');
       }
-      const row = { id: randomUUID(), day: new Date().toISOString().slice(0, 10), version: body.version === 'chat_first' ? 'chat_first' : 'mu_first',
+      const row = { id: randomUUID(), day: submittedAt.slice(0, 10), submittedAt, version: body.version === 'chat_first' ? 'chat_first' : 'mu_first',
         video_pct: typeof body.video_pct === 'number' ? Math.max(0, Math.min(1, body.video_pct)) : null, answers };
-      appendFileSync(RESP, JSON.stringify(row) + '\n');
+      try {
+        appendFileSync(RESP, JSON.stringify(row) + '\n');
+      } catch (err) {
+        console.error('[submit] could not store the response:', err);
+        return send(res, 500, JSON.stringify({ error: 'store_failed' }), 'application/json');
+      }
+      if (inv) {                                                             // never blocks the response: it is already saved
+        try {
+          inv[code].used = true; inv[code].usedAt = submittedAt; inv[code].usedDay = submittedAt.slice(0, 10); saveInvites(inv);
+        } catch (err) {
+          console.error('[submit] response stored but invite could not be marked as used:', code, err);
+        }
+      }
       send(res, 200, JSON.stringify({ ok: true }), 'application/json');
     });
   }
@@ -104,8 +117,8 @@ const server = http.createServer((req, res) => {
     }
     if (req.method === 'GET' && url.pathname === '/admin/api/responses.jsonl') { res.writeHead(200, { 'Content-Type': 'application/x-ndjson', 'Content-Disposition': 'attachment; filename="responses.jsonl"' }); return res.end(existsSync(RESP) ? readFileSync(RESP) : ''); }
     if (req.method === 'POST' && url.pathname === '/admin/api/invites') return readBody(req, res, body => {
-      const n = Math.max(1, Math.min(200, Number(body.n) || 1)); const inv = loadInvites(); const day = new Date().toISOString().slice(0, 10);
-      for (let i = 0; i < n; i++) inv[randomBytes(6).toString('hex')] = { created: day, used: false };
+      const n = Math.max(1, Math.min(200, Number(body.n) || 1)); const inv = loadInvites(); const createdAt = new Date().toISOString();
+      for (let i = 0; i < n; i++) inv[randomBytes(6).toString('hex')] = { created: createdAt.slice(0, 10), createdAt, used: false };
       saveInvites(inv); send(res, 200, JSON.stringify({ ok: true }), 'application/json');
     });
     if (req.method === 'POST' && url.pathname === '/admin/api/delete-all-responses') return readBody(req, res, body => {

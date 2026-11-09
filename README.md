@@ -54,9 +54,10 @@ respondents' IPs are not recorded; keep it that way, and take periodic backups o
 - **Admin** (`/admin`, HTTP Basic auth: `ADMIN_USER` + `ADMIN_PASSWORD`; without `ADMIN_USER` any user name is accepted): counters, personal invitation links (generate N, copy, delete
   unused), the list of responses (delete test ones), medians/means/distribution per statement, the open comments, and downloads
   (CSV built in the page, or the raw JSONL).
-- **Invitation links** (`/?k=CODE`): the code is checked when the page opens and *consumed when the answers are submitted*; it is stored in
+- **Invitation links** (`/?k=CODE`): the code is checked when the page opens and *consumed after the answers are stored*; it is stored in
   `data/invites.json`, never next to the answers, so a response cannot be traced to a person. Without `REQUIRE_INVITE=1` the page is open and
-  anyone with the general link can answer (and answer twice).
+  anyone with the general link can answer (and answer twice). The invite is spent only once `responses.jsonl` has the row: if writing fails the
+  endpoint returns 500 and the link stays usable, so a participant is never lost.
 - **Save and resume**: answers autosave in the browser (`localStorage`), so closing the tab or the browser loses nothing on the same device.
   A notice offers to continue or start again. Resuming on another device is not possible (that would need server-side drafts and a resume code).
   The draft is deleted on submit. On a shared computer, the next person at the same browser would see the draft.
