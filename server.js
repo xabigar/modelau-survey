@@ -78,6 +78,9 @@ const server = http.createServer((req, res) => {
     return readBody(req, res, body => {
       const answers = clean(body.answers);
       if (!Object.keys(answers).length) return send(res, 400, 'empty');
+      if (['courses', 'university'].some(key => typeof answers[key] !== 'string' || !answers[key].trim())) {
+        return send(res, 400, 'missing required profile answers');
+      }
       if (REQUIRE_INVITE) {                                                  // the code is consumed here and never stored with the answers
         const inv = loadInvites(); const c = String(body.invite || '');
         if (!inv[c]) return send(res, 403, JSON.stringify({ error: 'invalid_invite' }), 'application/json');

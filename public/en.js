@@ -1,7 +1,7 @@
 // English labels. Spanish option values remain stable for drafts and exports.
 export const EN = {
   "Presentación y vídeo": "Introduction and video",
-  "Sobre ti y el vídeo": "About you and the video",
+  "Sobre ti": "About you",
   "ModelaU frente a un chat convencional": "ModelaU compared with conventional chat",
   "Los ocho mecanismos": "The eight mechanisms",
   "Utilidad y adopción": "Usefulness and adoption",
@@ -24,7 +24,7 @@ export const EN = {
   "Empieza a construir el diagrama añadiendo algunas clases y relaciones. Después, pide una pista a <strong>UMLBuddy</strong> y observa cómo utiliza tu enunciado y tu diagrama para ayudarte.": "Start building the diagram by adding a few classes and relationships. Then ask <strong>UMLBuddy</strong> for a hint and see how it uses your exercise prompt and diagram to help.",
   "Cuando termines, vuelve a esta pestaña y continúa con el cuestionario.": "When you are finished, return to this tab and continue the questionnaire.",
   "He visto el vídeo · Continuar →": "I watched the video · Continue →",
-  "Responde las preguntas de perfil para continuar. La asignatura es opcional.": "Answer the profile questions to continue. The course question is optional.",
+  "Responde las preguntas de perfil para continuar.": "Answer the profile questions to continue.",
   "Piensa en la retroalimentación que recibe el estudiante en cada caso. Puntúa cada afirmación, de 1 a 5, para ModelaU y para el chat convencional del vídeo. Las dos respuestas se quedan a la vista mientras contestas.": "Consider the feedback the student receives in each case. Rate each statement from 1 to 5 for ModelaU and for the conventional chat in the video. Both responses remain visible as you answer.",
   "Las dos respuestas del vídeo": "The two responses from the video",
   "Chat convencional <small>(no es ModelaU)</small>": "Conventional chat <small>(separate from ModelaU)</small>",
@@ -98,7 +98,8 @@ export const EN = {
   "3 a 5": "3 to 5",
   "6 a 10": "6 to 10",
   "Más de 10": "More than 10",
-  "¿En qué asignaturas enseñas UML o modelado? (opcional)": "In which courses do you teach UML or modeling? (optional)",
+  "¿En qué asignaturas enseñas o has enseñado UML o modelado?": "In which courses do you teach or have you taught UML or modeling?",
+  "¿En qué universidad enseñas o has enseñado UML o modelado?": "At which university do you teach or have you taught UML or modeling?",
   "¿Has usado asistentes de IA (chats) en tu docencia?": "Have you used AI chat assistants in your teaching?",
   "Nunca": "Never",
   "Alguna vez": "Occasionally",

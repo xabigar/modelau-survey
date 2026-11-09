@@ -54,8 +54,8 @@
     {
       "id": "profile",
       "title": {
-        "es": "Sobre ti y el vídeo",
-        "en": "About you and the video"
+        "es": "Sobre ti",
+        "en": "About you"
       },
       "questions": [
         {
@@ -100,10 +100,19 @@
         {
           "id": "courses",
           "type": "text",
-          "required": false,
+          "required": true,
           "text": {
-            "es": "¿En qué asignaturas enseñas UML o modelado? (opcional)",
-            "en": "In which courses do you teach UML or modeling? (optional)"
+            "es": "¿En qué asignaturas enseñas o has enseñado UML o modelado?",
+            "en": "In which courses do you teach or have you taught UML or modeling?"
+          }
+        },
+        {
+          "id": "university",
+          "type": "text",
+          "required": true,
+          "text": {
+            "es": "¿En qué universidad enseñas o has enseñado UML o modelado?",
+            "en": "At which university do you teach or have you taught UML or modeling?"
           }
         },
         {

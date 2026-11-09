@@ -19,7 +19,8 @@ export const MOMENTS = {
 
 export const PART0 = [
   { id: 'exp_years', q: '¿Cuántos años llevas enseñando UML o modelado?', type: 'choice', options: ['0 a 2', '3 a 5', '6 a 10', 'Más de 10'] },
-  { id: 'courses', q: '¿En qué asignaturas enseñas UML o modelado? (opcional)', type: 'text' },
+  { id: 'courses', q: '¿En qué asignaturas enseñas o has enseñado UML o modelado?', type: 'text' },
+  { id: 'university', q: '¿En qué universidad enseñas o has enseñado UML o modelado?', type: 'text' },
   { id: 'ai_use', q: '¿Has usado asistentes de IA (chats) en tu docencia?', type: 'choice', options: ['Nunca', 'Alguna vez', 'Habitualmente'] },
   { id: 'watched', q: '¿Has visto el vídeo completo?', type: 'choice', options: ['Entero', 'La mayor parte', 'Solo una parte'] },
 ];

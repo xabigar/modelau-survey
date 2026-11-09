@@ -43,7 +43,7 @@ $('language').addEventListener('change', e => {
 
 const STEPS = [
   { title: "Presentación y vídeo", render: renderIntro },
-  { title: "Sobre ti y el vídeo", render: renderPart0 },
+  { title: "Sobre ti", render: renderPart0 },
   { title: "ModelaU frente a un chat convencional", render: renderA },
   { title: "Los ocho mecanismos", render: renderB },
   { title: "Utilidad y adopción", render: renderC },
@@ -127,7 +127,7 @@ function renderIntro() {
   <div class="nav"><span></span><button class="primary" data-next>${t("He visto el vídeo · Continuar →")}</button></div>`;
 }
 function renderPart0() {
-  return `<h1>${t("Sobre ti y el vídeo")}</h1><p class="lead">${t("Responde las preguntas de perfil para continuar. La asignatura es opcional.")}</p><div class="card">${PART0.map(field).join('')}</div>${nav()}`;
+  return `<h1>${t("Sobre ti")}</h1><p class="lead">${t("Responde las preguntas de perfil para continuar.")}</p><div class="card">${PART0.map(field).join('')}</div>${nav()}`;
 }
 function renderA() {
   const first = st.version === 'mu_first' ? ['mu', 'chat'] : ['chat', 'mu'];
@@ -201,13 +201,18 @@ function render() {
     });
   }
 }
+function missingAnswer(key) {
+  const value = st.answers[key];
+  return value === undefined || (typeof value === 'string' && !value.trim());
+}
+
 function validateStep() {
   if (preview) return true;
-  const required = st.step === 1 ? PART0.filter(q => q.type !== 'text').map(q => q.id)
+  const required = st.step === 1 ? PART0.map(q => q.id)
     : st.step === 2 ? A.flatMap(a => [`A_${a.key}_mu`, `A_${a.key}_chat`])
     : st.step === 3 ? [...B.flatMap(b => [`B_${b.key}_rel`, `B_${b.key}_intr`]), 'B_integrated']
     : st.step === 4 ? C.map(c => `C_${c.key}`) : [];
-  const missing = required.filter(k => st.answers[k] === undefined);
+  const missing = required.filter(missingAnswer);
   app.querySelectorAll('[aria-invalid="true"]').forEach(node => node.removeAttribute('aria-invalid'));
   $('validationMsg')?.remove();
   if (!missing.length) return true;
@@ -242,7 +247,7 @@ async function submit() {
   if (preview) { $('submitMsg').textContent = t("Fin de la previsualización. No se han enviado ni guardado respuestas."); return; }
   const missing = SCALED.filter(k => st.answers[k] === undefined).length;
   const msg = $('submitMsg');
-  const missingProfile = PART0.filter(q => q.type !== 'text' && st.answers[q.id] === undefined).length;
+  const missingProfile = PART0.some(q => missingAnswer(q.id));
   if (missing || missingProfile) {
     msg.textContent = t("Hay preguntas obligatorias sin responder. Revisa los pasos anteriores antes de enviar.");
     return;
