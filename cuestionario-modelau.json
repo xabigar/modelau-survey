@@ -1,0 +1,805 @@
+{
+  "title": "ModelaU",
+  "languages": [
+    "es",
+    "en"
+  ],
+  "scales": {
+    "agreement": [
+      {
+        "value": 1,
+        "label": {
+          "es": "Totalmente en desacuerdo",
+          "en": "Strongly disagree"
+        }
+      },
+      {
+        "value": 2,
+        "label": {
+          "es": "En desacuerdo",
+          "en": "Disagree"
+        }
+      },
+      {
+        "value": 3,
+        "label": {
+          "es": "Ni de acuerdo ni en desacuerdo",
+          "en": "Neither agree nor disagree"
+        }
+      },
+      {
+        "value": 4,
+        "label": {
+          "es": "De acuerdo",
+          "en": "Agree"
+        }
+      },
+      {
+        "value": 5,
+        "label": {
+          "es": "Totalmente de acuerdo",
+          "en": "Strongly agree"
+        }
+      },
+      {
+        "value": null,
+        "label": {
+          "es": "No lo sé / no se vio en el vídeo",
+          "en": "I don’t know / not shown in the video"
+        }
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "profile",
+      "title": {
+        "es": "Sobre ti y el vídeo",
+        "en": "About you and the video"
+      },
+      "questions": [
+        {
+          "id": "exp_years",
+          "type": "choice",
+          "required": true,
+          "text": {
+            "es": "¿Cuántos años llevas enseñando UML o modelado?",
+            "en": "How many years have you been teaching UML or modeling?"
+          },
+          "options": [
+            {
+              "value": "0 a 2",
+              "label": {
+                "es": "0 a 2",
+                "en": "0 to 2"
+              }
+            },
+            {
+              "value": "3 a 5",
+              "label": {
+                "es": "3 a 5",
+                "en": "3 to 5"
+              }
+            },
+            {
+              "value": "6 a 10",
+              "label": {
+                "es": "6 a 10",
+                "en": "6 to 10"
+              }
+            },
+            {
+              "value": "Más de 10",
+              "label": {
+                "es": "Más de 10",
+                "en": "More than 10"
+              }
+            }
+          ]
+        },
+        {
+          "id": "courses",
+          "type": "text",
+          "required": false,
+          "text": {
+            "es": "¿En qué asignaturas enseñas UML o modelado? (opcional)",
+            "en": "In which courses do you teach UML or modeling? (optional)"
+          }
+        },
+        {
+          "id": "ai_use",
+          "type": "choice",
+          "required": true,
+          "text": {
+            "es": "¿Has usado asistentes de IA (chats) en tu docencia?",
+            "en": "Have you used AI chat assistants in your teaching?"
+          },
+          "options": [
+            {
+              "value": "Nunca",
+              "label": {
+                "es": "Nunca",
+                "en": "Never"
+              }
+            },
+            {
+              "value": "Alguna vez",
+              "label": {
+                "es": "Alguna vez",
+                "en": "Occasionally"
+              }
+            },
+            {
+              "value": "Habitualmente",
+              "label": {
+                "es": "Habitualmente",
+                "en": "Regularly"
+              }
+            }
+          ]
+        },
+        {
+          "id": "watched",
+          "type": "choice",
+          "required": true,
+          "text": {
+            "es": "¿Has visto el vídeo completo?",
+            "en": "Did you watch the entire video?"
+          },
+          "options": [
+            {
+              "value": "Entero",
+              "label": {
+                "es": "Entero",
+                "en": "All of it"
+              }
+            },
+            {
+              "value": "La mayor parte",
+              "label": {
+                "es": "La mayor parte",
+                "en": "Most of it"
+              }
+            },
+            {
+              "value": "Solo una parte",
+              "label": {
+                "es": "Solo una parte",
+                "en": "Only part of it"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A",
+      "title": {
+        "es": "ModelaU frente a un chat convencional",
+        "en": "ModelaU compared with conventional chat"
+      },
+      "questions": [
+        {
+          "id": "A_specific_mu",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "La retroalimentación señala la parte exacta del trabajo del estudiante a la que se refiere, en lugar de describirlo de forma genérica.",
+            "en": "The feedback points to the exact part of the student’s work it addresses."
+          },
+          "criterion": {
+            "es": "Específica",
+            "en": "Specific"
+          },
+          "target": {
+            "es": "ModelaU",
+            "en": "ModelaU"
+          }
+        },
+        {
+          "id": "A_specific_chat",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "La retroalimentación señala la parte exacta del trabajo del estudiante a la que se refiere, en lugar de describirlo de forma genérica.",
+            "en": "The feedback points to the exact part of the student’s work it addresses."
+          },
+          "criterion": {
+            "es": "Específica",
+            "en": "Specific"
+          },
+          "target": {
+            "es": "Chat convencional",
+            "en": "Conventional chat"
+          }
+        },
+        {
+          "id": "A_selective_mu",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "La retroalimentación aborda un problema concreto por interacción, en lugar de enumerar todos los posibles a la vez.",
+            "en": "The feedback addresses one specific issue per interaction."
+          },
+          "criterion": {
+            "es": "Selectiva",
+            "en": "Selective"
+          },
+          "target": {
+            "es": "ModelaU",
+            "en": "ModelaU"
+          }
+        },
+        {
+          "id": "A_selective_chat",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "La retroalimentación aborda un problema concreto por interacción, en lugar de enumerar todos los posibles a la vez.",
+            "en": "The feedback addresses one specific issue per interaction."
+          },
+          "criterion": {
+            "es": "Selectiva",
+            "en": "Selective"
+          },
+          "target": {
+            "es": "Chat convencional",
+            "en": "Conventional chat"
+          }
+        },
+        {
+          "id": "A_timely_mu",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "La retroalimentación llega mientras el intento del estudiante sigue activo, no solo cuando lo pide de forma explícita y quizá tarde.",
+            "en": "The feedback arrives while the student is still working, even before they explicitly ask for help."
+          },
+          "criterion": {
+            "es": "A tiempo",
+            "en": "Timely"
+          },
+          "target": {
+            "es": "ModelaU",
+            "en": "ModelaU"
+          }
+        },
+        {
+          "id": "A_timely_chat",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "La retroalimentación llega mientras el intento del estudiante sigue activo, no solo cuando lo pide de forma explícita y quizá tarde.",
+            "en": "The feedback arrives while the student is still working, even before they explicitly ask for help."
+          },
+          "criterion": {
+            "es": "A tiempo",
+            "en": "Timely"
+          },
+          "target": {
+            "es": "Chat convencional",
+            "en": "Conventional chat"
+          }
+        },
+        {
+          "id": "A_context_mu",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "La retroalimentación se enmarca en el paso o etapa de la tarea en que está el estudiante, sin suponer un orden obligatorio entre etapas.",
+            "en": "The feedback fits the student’s current stage of the task, with no required order for the stages."
+          },
+          "criterion": {
+            "es": "Contextualizada",
+            "en": "Contextualized"
+          },
+          "target": {
+            "es": "ModelaU",
+            "en": "ModelaU"
+          }
+        },
+        {
+          "id": "A_context_chat",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "La retroalimentación se enmarca en el paso o etapa de la tarea en que está el estudiante, sin suponer un orden obligatorio entre etapas.",
+            "en": "The feedback fits the student’s current stage of the task, with no required order for the stages."
+          },
+          "criterion": {
+            "es": "Contextualizada",
+            "en": "Contextualized"
+          },
+          "target": {
+            "es": "Chat convencional",
+            "en": "Conventional chat"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "title": {
+        "es": "Los ocho mecanismos",
+        "en": "The eight mechanisms"
+      },
+      "questions": [
+        {
+          "id": "B_cite_rel",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo ayuda a que la retroalimentación sea específica.",
+            "en": "This mechanism helps feedback be specific."
+          },
+          "mechanism": {
+            "es": "Citar los nombres exactos",
+            "en": "Referencing exact names"
+          },
+          "description": {
+            "es": "El tutor nombra las clases, actores o casos de uso del estudiante tal como aparecen en su diagrama.",
+            "en": "The tutor uses the names of the student’s classes, actors, or use cases as they appear in the diagram."
+          },
+          "dimension": {
+            "es": "Específica",
+            "en": "Specific"
+          }
+        },
+        {
+          "id": "B_cite_intr",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo estorbaría al estudiante mientras modela. (Respóndelo como esperada: no has usado la herramienta.)",
+            "en": "This mechanism would get in the student’s way while modeling. (Rate the disruption you would expect.)"
+          },
+          "mechanism": {
+            "es": "Citar los nombres exactos",
+            "en": "Referencing exact names"
+          },
+          "description": {
+            "es": "El tutor nombra las clases, actores o casos de uso del estudiante tal como aparecen en su diagrama.",
+            "en": "The tutor uses the names of the student’s classes, actors, or use cases as they appear in the diagram."
+          },
+          "dimension": {
+            "es": "Específica",
+            "en": "Specific"
+          }
+        },
+        {
+          "id": "B_highlight_rel",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo ayuda a que la retroalimentación sea específica.",
+            "en": "This mechanism helps feedback be specific."
+          },
+          "mechanism": {
+            "es": "Señalado validado en el diagrama",
+            "en": "Highlighting verified diagram elements"
+          },
+          "description": {
+            "es": "El tutor señala elementos del diagrama; solo se resaltan los que existen de verdad.",
+            "en": "The tutor points to diagram elements. Only elements present in the diagram are highlighted."
+          },
+          "dimension": {
+            "es": "Específica",
+            "en": "Specific"
+          }
+        },
+        {
+          "id": "B_highlight_intr",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo estorbaría al estudiante mientras modela. (Respóndelo como esperada: no has usado la herramienta.)",
+            "en": "This mechanism would get in the student’s way while modeling. (Rate the disruption you would expect.)"
+          },
+          "mechanism": {
+            "es": "Señalado validado en el diagrama",
+            "en": "Highlighting verified diagram elements"
+          },
+          "description": {
+            "es": "El tutor señala elementos del diagrama; solo se resaltan los que existen de verdad.",
+            "en": "The tutor points to diagram elements. Only elements present in the diagram are highlighted."
+          },
+          "dimension": {
+            "es": "Específica",
+            "en": "Specific"
+          }
+        },
+        {
+          "id": "B_single_rel",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo ayuda a que la retroalimentación sea selectiva.",
+            "en": "This mechanism helps feedback be selective."
+          },
+          "mechanism": {
+            "es": "Un solo problema por respuesta",
+            "en": "One issue per response"
+          },
+          "description": {
+            "es": "Cada respuesta trata un problema en lugar de enumerar varios.",
+            "en": "Each response focuses on a single issue."
+          },
+          "dimension": {
+            "es": "Selectiva",
+            "en": "Selective"
+          }
+        },
+        {
+          "id": "B_single_intr",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo estorbaría al estudiante mientras modela. (Respóndelo como esperada: no has usado la herramienta.)",
+            "en": "This mechanism would get in the student’s way while modeling. (Rate the disruption you would expect.)"
+          },
+          "mechanism": {
+            "es": "Un solo problema por respuesta",
+            "en": "One issue per response"
+          },
+          "description": {
+            "es": "Cada respuesta trata un problema en lugar de enumerar varios.",
+            "en": "Each response focuses on a single issue."
+          },
+          "dimension": {
+            "es": "Selectiva",
+            "en": "Selective"
+          }
+        },
+        {
+          "id": "B_scenario_rel",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo ayuda a que la retroalimentación sea selectiva.",
+            "en": "This mechanism helps feedback be selective."
+          },
+          "mechanism": {
+            "es": "Un escenario cada vez (secuencia)",
+            "en": "One scenario at a time (sequence diagrams)"
+          },
+          "description": {
+            "es": "En diagramas de secuencia con varios flujos, la respuesta se centra en uno.",
+            "en": "In sequence diagrams with several flows, the response focuses on one flow."
+          },
+          "dimension": {
+            "es": "Selectiva",
+            "en": "Selective"
+          }
+        },
+        {
+          "id": "B_scenario_intr",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo estorbaría al estudiante mientras modela. (Respóndelo como esperada: no has usado la herramienta.)",
+            "en": "This mechanism would get in the student’s way while modeling. (Rate the disruption you would expect.)"
+          },
+          "mechanism": {
+            "es": "Un escenario cada vez (secuencia)",
+            "en": "One scenario at a time (sequence diagrams)"
+          },
+          "description": {
+            "es": "En diagramas de secuencia con varios flujos, la respuesta se centra en uno.",
+            "en": "In sequence diagrams with several flows, the response focuses on one flow."
+          },
+          "dimension": {
+            "es": "Selectiva",
+            "en": "Selective"
+          }
+        },
+        {
+          "id": "B_nudge_rel",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo ayuda a que la retroalimentación llegue a tiempo.",
+            "en": "This mechanism helps feedback arrive at the right time."
+          },
+          "mechanism": {
+            "es": "Aviso por inactividad",
+            "en": "Inactivity prompt"
+          },
+          "description": {
+            "es": "Si el diagrama sigue incompleto tras un rato sin actividad, aparece un bocadillo que ofrece ayuda.",
+            "en": "If the diagram is still incomplete after a period of inactivity, a bubble appears offering help."
+          },
+          "dimension": {
+            "es": "A tiempo",
+            "en": "Timely"
+          }
+        },
+        {
+          "id": "B_nudge_intr",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo estorbaría al estudiante mientras modela. (Respóndelo como esperada: no has usado la herramienta.)",
+            "en": "This mechanism would get in the student’s way while modeling. (Rate the disruption you would expect.)"
+          },
+          "mechanism": {
+            "es": "Aviso por inactividad",
+            "en": "Inactivity prompt"
+          },
+          "description": {
+            "es": "Si el diagrama sigue incompleto tras un rato sin actividad, aparece un bocadillo que ofrece ayuda.",
+            "en": "If the diagram is still incomplete after a period of inactivity, a bubble appears offering help."
+          },
+          "dimension": {
+            "es": "A tiempo",
+            "en": "Timely"
+          }
+        },
+        {
+          "id": "B_edit_checks_rel",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo ayuda a que la retroalimentación llegue a tiempo.",
+            "en": "This mechanism helps feedback arrive at the right time."
+          },
+          "mechanism": {
+            "es": "Comprobaciones al editar",
+            "en": "Checks while editing"
+          },
+          "description": {
+            "es": "Problemas estructurales (por ejemplo, una relación sin multiplicidad) se marcan al instante, sin consultar al tutor.",
+            "en": "Structural issues, such as a relationship without multiplicity, are flagged immediately without consulting the tutor."
+          },
+          "dimension": {
+            "es": "A tiempo",
+            "en": "Timely"
+          }
+        },
+        {
+          "id": "B_edit_checks_intr",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo estorbaría al estudiante mientras modela. (Respóndelo como esperada: no has usado la herramienta.)",
+            "en": "This mechanism would get in the student’s way while modeling. (Rate the disruption you would expect.)"
+          },
+          "mechanism": {
+            "es": "Comprobaciones al editar",
+            "en": "Checks while editing"
+          },
+          "description": {
+            "es": "Problemas estructurales (por ejemplo, una relación sin multiplicidad) se marcan al instante, sin consultar al tutor.",
+            "en": "Structural issues, such as a relationship without multiplicity, are flagged immediately without consulting the tutor."
+          },
+          "dimension": {
+            "es": "A tiempo",
+            "en": "Timely"
+          }
+        },
+        {
+          "id": "B_step_rel",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo ayuda a que la retroalimentación sea contextualizada.",
+            "en": "This mechanism helps feedback fit the context."
+          },
+          "mechanism": {
+            "es": "Detección del paso del proceso",
+            "en": "Detecting the current modeling step"
+          },
+          "description": {
+            "es": "Las pistas se adaptan al paso de construcción en que está el estudiante.",
+            "en": "Hints adapt to the student’s current step in building the diagram."
+          },
+          "dimension": {
+            "es": "Contextualizada",
+            "en": "Contextualized"
+          }
+        },
+        {
+          "id": "B_step_intr",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo estorbaría al estudiante mientras modela. (Respóndelo como esperada: no has usado la herramienta.)",
+            "en": "This mechanism would get in the student’s way while modeling. (Rate the disruption you would expect.)"
+          },
+          "mechanism": {
+            "es": "Detección del paso del proceso",
+            "en": "Detecting the current modeling step"
+          },
+          "description": {
+            "es": "Las pistas se adaptan al paso de construcción en que está el estudiante.",
+            "en": "Hints adapt to the student’s current step in building the diagram."
+          },
+          "dimension": {
+            "es": "Contextualizada",
+            "en": "Contextualized"
+          }
+        },
+        {
+          "id": "B_vocab_rel",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo ayuda a que la retroalimentación sea contextualizada.",
+            "en": "This mechanism helps feedback fit the context."
+          },
+          "mechanism": {
+            "es": "Vocabulario compartido de resaltados",
+            "en": "Shared vocabulary for highlights"
+          },
+          "description": {
+            "es": "Las frases resaltadas del enunciado que aún no están en el diagrama se marcan como pendientes.",
+            "en": "Highlighted phrases in the exercise prompt that are missing from the diagram are marked as pending."
+          },
+          "dimension": {
+            "es": "Contextualizada",
+            "en": "Contextualized"
+          }
+        },
+        {
+          "id": "B_vocab_intr",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Este mecanismo estorbaría al estudiante mientras modela. (Respóndelo como esperada: no has usado la herramienta.)",
+            "en": "This mechanism would get in the student’s way while modeling. (Rate the disruption you would expect.)"
+          },
+          "mechanism": {
+            "es": "Vocabulario compartido de resaltados",
+            "en": "Shared vocabulary for highlights"
+          },
+          "description": {
+            "es": "Las frases resaltadas del enunciado que aún no están en el diagrama se marcan como pendientes.",
+            "en": "Highlighted phrases in the exercise prompt that are missing from the diagram are marked as pending."
+          },
+          "dimension": {
+            "es": "Contextualizada",
+            "en": "Contextualized"
+          }
+        },
+        {
+          "id": "B_integrated",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Que el tutor esté dentro del espacio de diseño, sin copiar el diagrama y el enunciado en otro chat, es útil para el estudiante.",
+            "en": "It is useful for students to have the tutor in the design workspace so they can avoid copying the diagram and exercise prompt into a separate chat."
+          }
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "title": {
+        "es": "Utilidad y adopción",
+        "en": "Usefulness and adoption"
+      },
+      "questions": [
+        {
+          "id": "C_relative",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Preferiría que mis estudiantes usaran ModelaU antes que un chat generalista para estos ejercicios.",
+            "en": "I would prefer my students to use ModelaU over a general-purpose chat for these exercises."
+          }
+        },
+        {
+          "id": "C_useful",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Usar ModelaU mejoraría el aprendizaje de modelado de mis estudiantes.",
+            "en": "Using ModelaU would help my students learn modeling."
+          }
+        },
+        {
+          "id": "C_complex",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Los mecanismos de ModelaU son fáciles de entender.",
+            "en": "ModelaU’s mechanisms are easy to understand."
+          }
+        },
+        {
+          "id": "C_compat",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "ModelaU encaja con mi forma de enseñar modelado.",
+            "en": "ModelaU fits the way I teach modeling."
+          }
+        },
+        {
+          "id": "C_intent",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Probaría ModelaU en una de mis asignaturas.",
+            "en": "I would try ModelaU in one of my courses."
+          }
+        },
+        {
+          "id": "C_worry",
+          "type": "scale",
+          "required": true,
+          "scale": "agreement",
+          "text": {
+            "es": "Me preocupa que los estudiantes dependan de la herramienta en lugar de pensar.",
+            "en": "I worry that students might rely on the tool instead of thinking for themselves."
+          }
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "title": {
+        "es": "Comentarios sobre ModelaU",
+        "en": "Feedback on ModelaU"
+      },
+      "questions": [
+        {
+          "id": "D_liked",
+          "type": "text",
+          "required": false,
+          "text": {
+            "es": "¿Qué cosas te han gustado de ModelaU?",
+            "en": "What did you like about ModelaU?"
+          }
+        },
+        {
+          "id": "D_disliked",
+          "type": "text",
+          "required": false,
+          "text": {
+            "es": "¿Qué cosas no te han gustado de ModelaU?",
+            "en": "What did you dislike about ModelaU?"
+          }
+        },
+        {
+          "id": "D_comments",
+          "type": "text",
+          "required": false,
+          "text": {
+            "es": "Para dejar tus comentarios",
+            "en": "Any other comments"
+          }
+        }
+      ]
+    }
+  ]
+}

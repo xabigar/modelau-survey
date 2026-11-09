@@ -34,14 +34,11 @@ export const DIMS = {
 
 // Part A: each statement is rated twice, once for ModelaU and once for the conventional chat (suffixes _mu and _chat).
 export const A = [
-  ['specific', 'Específica', DIMS['Específica'].def, true],
-  ['selective', 'Selectiva', DIMS['Selectiva'].def, true],
-  ['timely', 'A tiempo', DIMS['A tiempo'].def, true],
-  ['context', 'Contextualizada', DIMS['Contextualizada'].def, true],
-  ['withhold', 'No da la solución', 'deja al estudiante el trabajo de encontrar la solución', false],
-  ['correct', 'Corrección', 'es técnicamente correcta', false],
-  ['useful', 'Utilidad global', 'ayudaría a un estudiante a mejorar su diagrama', false],
-].map(([key, label, text, nicol]) => ({ key, label, text, nicol }));
+  ['specific', 'Específica', DIMS['Específica'].def],
+  ['selective', 'Selectiva', DIMS['Selectiva'].def],
+  ['timely', 'A tiempo', DIMS['A tiempo'].def],
+  ['context', 'Contextualizada', DIMS['Contextualizada'].def],
+].map(([key, label, text]) => ({ key, label, text }));
 
 // Part B: the eight mechanisms. `rel` is completed with the dimension the mechanism targets.
 export const B = [
@@ -87,6 +84,7 @@ export const C = [
 export const D = [
   { id: 'D_liked', q: '¿Qué cosas te han gustado de ModelaU?', type: 'text' },
   { id: 'D_disliked', q: '¿Qué cosas no te han gustado de ModelaU?', type: 'text' },
+  { id: 'D_comments', q: 'Para dejar tus comentarios', type: 'text' },
 ];
 
 // Ordered list of every stored variable (used for the CSV header).
