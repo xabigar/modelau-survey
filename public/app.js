@@ -18,6 +18,8 @@ const save = () => { try { store && store.setItem(KEY, JSON.stringify(st)); } ca
 const clearDraft = () => { try { store && store.removeItem(KEY); } catch {} };
 
 const t = value => st.lang === 'en' ? EN[value] ?? value : value;
+// Dimension name: in Spanish the English term follows in parentheses (as in the paper); in English just the term.
+const dimLabel = k => st.lang === 'en' ? t(k) : `${k} (${EN[k]})`;
 let inviteInfo;
 let submitted = false;
 
@@ -140,7 +142,7 @@ function renderPart0() {
 function renderA() {
   const first = st.version === 'mu_first' ? ['mu', 'chat'] : ['chat', 'mu'];
   const who = { mu: 'ModelaU', chat: t("Chat convencional") };
-  const row = a => `<fieldset class="arow"><legend class="qtext"><span class="chip dim-${a.label.replace(' ', '-')}">${esc(t(a.label))}</span> ${t('La retroalimentación')} ${esc(t(a.text))}.</legend>
+  const row = a => `<fieldset class="arow"><legend class="qtext"><span class="chip dim-${a.label.replace(' ', '-')}">${esc(dimLabel(a.label))}</span> ${t('La retroalimentación')} ${esc(t(a.text))}.</legend>
     <div class="row2">${first.map(k => `<div><p class="who ${k}">${who[k]}</p>${scale(`A_${a.key}_${k}`)}</div>`).join('')}</div></fieldset>`;
   return `<h1>${t("ModelaU frente a un chat convencional")}</h1>
   <p class="lead">${t("Piensa en la retroalimentación que recibe el estudiante en cada caso. Puntúa cada afirmación, de 1 a 5, para ModelaU y para el chat convencional del vídeo. Las dos respuestas se quedan a la vista mientras contestas.")}</p>
@@ -162,15 +164,15 @@ function renderB() {
     <div class="vis"><img src="img/${b.img}" alt="${t("Recordatorio visual:")} ${esc(t(b.name))}"><p class="see">${esc(t(b.see))}</p>${watchBtn(b.moment, b.live ? t("Ver este momento del vídeo") : t("Ver la tarjeta del vídeo"))}</div>
     <div class="body">
       <h3 id="mh_${b.key}">${i + 1}. ${esc(t(b.name))}</h3>
-      <p style="margin:6px 0 0"><span class="chip ${dimClass(b.dim)}">${esc(t(b.dim))}</span> ${b.live ? '' : '<span class="nolive">' + t("Explicado con una tarjeta, no se ve en vivo") + '</span>'}</p>
+      <p style="margin:6px 0 0"><span class="chip ${dimClass(b.dim)}">${esc(dimLabel(b.dim))}</span> ${b.live ? '' : '<span class="nolive">' + t("Explicado con una tarjeta, no se ve en vivo") + '</span>'}</p>
       <p class="what">${esc(t(b.what))}</p>
       <fieldset class="q"><legend class="qtext">${t("Este mecanismo ayuda a que la retroalimentación")} <strong>${esc(t(DIMS[b.dim].adj))}</strong>.</legend>
-        <p class="def dim-${dimClass(b.dim)}"><strong>${esc(t(b.dim))}:</strong> ${t('la retroalimentación')} ${esc(t(DIMS[b.dim].def))}. <span>${esc(t(DIMS[b.dim].why))}</span></p>${scale(`B_${b.key}_rel`)}</fieldset>
+        <p class="def dim-${dimClass(b.dim)}"><strong>${esc(dimLabel(b.dim))}:</strong> ${t('la retroalimentación')} ${esc(t(DIMS[b.dim].def))}. <span>${esc(t(DIMS[b.dim].why))}</span></p>${scale(`B_${b.key}_rel`)}</fieldset>
       <fieldset class="q"><legend class="qtext">${esc(t(B_INTR))}</legend>${scale(`B_${b.key}_intr`)}</fieldset>
     </div></section>`).join('');
   const integ = `<section class="card mech"><div class="vis"><img src="img/${B_INTEGRATED.img}" alt="${t("Tutor integrado en el espacio de diseño")}"><p class="see">${esc(t(B_INTEGRATED.see))}</p>${watchBtn(B_INTEGRATED.moment)}</div>
     <div class="body"><h3>${t("Todo en un mismo espacio")}</h3><fieldset class="q" style="margin-top:12px"><legend class="qtext">${esc(t(B_INTEGRATED.text))}</legend>${scale('B_integrated')}</fieldset></div></section>`;
-  const legend = Object.entries(DIMS).map(([k, d]) => `<div class="def dim-${dimClass(k)}"><strong>${esc(t(k))}</strong><br>${esc(t(d.def).charAt(0).toUpperCase() + t(d.def).slice(1))}.</div>`).join('');
+  const legend = Object.entries(DIMS).map(([k, d]) => `<div class="def dim-${dimClass(k)}"><strong>${esc(dimLabel(k))}</strong><br>${esc(t(d.def).charAt(0).toUpperCase() + t(d.def).slice(1))}.</div>`).join('');
   return `<h1>${t("Los ocho mecanismos")}</h1>
   <p class="lead">${t("Cada mecanismo está pensado para conseguir una de las cuatro cualidades de la retroalimentación eficaz de Nicol. Para cada uno puntúas, de 1 a 5, si cumple esa cualidad y si estorbaría al estudiante. A la izquierda tienes un recordatorio de cómo se veía; con el botón puedes volver a ver ese momento.")}</p>
   <div class="card"><h2>${t("Las cuatro cualidades, en pocas palabras")}</h2><div class="deflist">${legend}</div></div>

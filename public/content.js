@@ -32,10 +32,10 @@ export const PART0 = [
 
 // Nicol's four feedback-quality dimensions, as defined in the paper (kernel theory), in plain Spanish.
 export const DIMS = {
-  'Específica': { adj: 'sea específica', def: 'señala la parte exacta del trabajo del estudiante a la que se refiere, en lugar de describirlo de forma genérica', why: 'Así el estudiante localiza la revisión que necesita en lugar de adivinar.' },
-  'Selectiva': { adj: 'sea selectiva', def: 'aborda un problema concreto por interacción, en lugar de enumerar todos los posibles a la vez', why: 'Así no se le sobrecarga con más problemas de los que puede atender de una vez.' },
-  'A tiempo': { adj: 'llegue a tiempo', def: 'llega mientras el intento del estudiante sigue activo, no solo cuando lo pide de forma explícita y quizá tarde', why: 'Así sigue siendo útil mientras el estudiante está motivado y puede corregir.' },
-  'Contextualizada': { adj: 'sea contextualizada', def: 'se enmarca en el paso o etapa de la tarea en que está el estudiante, sin suponer un orden obligatorio entre etapas', why: 'Así el estudiante relaciona la ayuda con su propio progreso y no con una lista abstracta.' },
+  'Específica': { adj: 'sea específica', def: 'señala la parte exacta del trabajo del estudiante a la que se refiere (por ejemplo, una clase, una relación o un paso concreto de su diagrama), en lugar de hacer comentarios generales como «revisa tu diagrama»', why: 'Así el estudiante sabe dónde mirar y qué revisar, en lugar de tener que adivinarlo.' },
+  'Selectiva': { adj: 'sea selectiva', def: 'se centra en un único problema por interacción, el más importante en ese momento, en lugar de enumerar a la vez todos los que se podrían señalar', why: 'Así el estudiante puede atender cada comentario sin abrumarse con más de lo que puede abordar de una vez.' },
+  'A tiempo': { adj: 'llegue a tiempo', def: 'llega mientras el intento del estudiante sigue en marcha (por ejemplo, cuando parece atascado o comete un error estructural), y no solo cuando lo pide de forma explícita, que puede ser demasiado tarde', why: 'Así sigue siendo útil mientras el estudiante está motivado y todavía puede corregir su trabajo.' },
+  'Contextualizada': { adj: 'sea contextualizada', def: 'se adapta al paso o etapa de la tarea en que está el estudiante (por ejemplo, identificar clases o definir relaciones), sin imponer un orden obligatorio entre etapas', why: 'Así el estudiante relaciona la ayuda con su propio progreso y no con una lista abstracta de consejos.' },
 };
 
 // Part A: each statement is rated twice, once for ModelaU and once for the conventional chat (suffixes _mu and _chat).
@@ -49,28 +49,28 @@ export const A = [
 // Part B: the eight mechanisms. `rel` is completed with the dimension the mechanism targets.
 export const B = [
   { key: 'cite', name: 'Citar los nombres exactos', dim: 'Específica', img: 'cite.png', moment: 'cite', live: true,
-    what: 'El tutor nombra las clases, actores o casos de uso del estudiante tal como aparecen en su diagrama.',
+    what: 'El tutor se refiere a los elementos del trabajo del estudiante (clases, atributos, actores o casos de uso) con el nombre exacto que tienen en su diagrama, en lugar de expresiones vagas como «esa clase» o «esa relación».',
     see: 'En el vídeo, la respuesta habla de «Member» y «GymClass», tal como se llaman en el diagrama, no de «esa relación».' },
   { key: 'highlight', name: 'Señalado validado en el diagrama', dim: 'Específica', img: 'highlight.png', moment: 'highlight', live: true,
-    what: 'El tutor señala elementos del diagrama; solo se resaltan los que existen de verdad.',
+    what: 'Cuando el tutor menciona elementos del diagrama, la interfaz los recuadra para que el estudiante vea de qué se habla. Antes de resaltarlos, el servidor comprueba que existen de verdad en el diagrama.',
     see: 'Al pulsar «Show in diagram», los elementos de los que habla el tutor se recuadran en azul. Si el modelo se inventara uno, no se marcaría.' },
   { key: 'single', name: 'Un solo problema por respuesta', dim: 'Selectiva', img: 'single.png', moment: 'single', live: true,
-    what: 'Cada respuesta trata un problema en lugar de enumerar varios.',
+    what: 'Cada respuesta se centra en un único problema, el más relevante en ese momento, y termina con una pregunta; los demás posibles problemas esperan a las siguientes interacciones.',
     see: 'La respuesta es corta, trata una sola cosa y termina con una pregunta; no dice qué hay que añadir.' },
   { key: 'scenario', name: 'Un escenario cada vez (secuencia)', dim: 'Selectiva', img: 'scenario.png', moment: 'scenario', live: false,
-    what: 'En diagramas de secuencia con varios flujos, la respuesta se centra en uno.',
+    what: 'En diagramas de secuencia con varios flujos (uno principal y otros alternativos), cada respuesta comenta un solo flujo, normalmente el principal, en lugar de mezclarlos todos a la vez.',
     see: 'El vídeo usa solo diagramas de clases, así que este mecanismo se explica con una tarjeta pero no se ve funcionando. Puntúalo a partir de la descripción.' },
   { key: 'nudge', name: 'Aviso por inactividad', dim: 'A tiempo', img: 'nudge.png', moment: 'nudge', live: true,
-    what: 'Si el diagrama sigue incompleto tras un rato sin actividad, aparece un bocadillo que ofrece ayuda.',
+    what: 'Si el estudiante lleva unos minutos sin actividad y el diagrama sigue incompleto, junto al tutor aparece un bocadillo que le ofrece ayuda, sin abrir nada por su cuenta.',
     see: 'En el vídeo se acelera el tiempo: junto a UMLBuddy aparece «Feeling stuck? I can help you move on…». No abre nada por sí solo y desaparece en cuanto el estudiante edita.' },
   { key: 'edit_checks', name: 'Comprobaciones al editar', dim: 'A tiempo', img: 'edit.png', moment: 'edit', live: true,
-    what: 'Problemas estructurales (por ejemplo, una relación sin multiplicidad) se marcan al instante, sin consultar al tutor.',
+    what: 'Mientras el estudiante edita, un conjunto de reglas comprueba problemas estructurales (por ejemplo, una relación sin multiplicidad) y los marca al instante, sin consultar al modelo de lenguaje.',
     see: 'La relación «books» no tiene multiplicidad y aparece un aviso (!) enseguida. Lo hace un programa, no el modelo de lenguaje.' },
   { key: 'step', name: 'Detección del paso del proceso', dim: 'Contextualizada', img: 'step.png', moment: 'step', live: true,
-    what: 'Las pistas se adaptan al paso de construcción en que está el estudiante.',
+    what: 'La herramienta deduce, a partir del diagrama del estudiante, en qué paso del modelado se encuentra (por ejemplo, identificar clases o definir relaciones) y adapta las pistas a ese paso, sin imponer un orden.',
     see: 'El selector «Process step» muestra en qué paso cree la herramienta que está el estudiante, deducido solo de su diagrama. Puede cambiarlo a mano.' },
   { key: 'vocab', name: 'Vocabulario compartido de resaltados', dim: 'Contextualizada', img: 'vocab.png', moment: 'vocab', live: true,
-    what: 'Las frases resaltadas del enunciado que aún no están en el diagrama se marcan como pendientes.',
+    what: 'Los fragmentos del enunciado que menciona el tutor se colorean según su tipo y se subrayan si todavía no están en el diagrama, para que el estudiante vea qué le falta por modelar.',
     see: 'La frase del enunciado que señala el tutor se colorea según su tipo (requisito, actor, por aclarar) y se subraya porque todavía no tiene reflejo en el diagrama.' },
 ];
 export const B_INTEGRATED = { key: 'integrated', img: 'integrated.png', moment: 'integrated',
