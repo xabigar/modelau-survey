@@ -161,13 +161,14 @@ function renderA() {
 function renderB() {
   const dimClass = d => d.replace(' ', '-');
   const cards = B.map((b, i) => `<section class="card mech" aria-labelledby="mh_${b.key}">
-    <div class="vis"><img src="img/${b.img}" alt="${t("Recordatorio visual:")} ${esc(t(b.name))}"><p class="see">${esc(t(b.see))}</p>${watchBtn(b.moment, b.live ? t("Ver este momento del vídeo") : t("Ver la tarjeta del vídeo"))}</div>
+    <div class="vis"><img src="img/${b.img}" alt="${t("Recordatorio visual:")} ${esc(t(b.name))}"><p class="see">${esc(t(b.see))}</p>${watchBtn(b.moment, b.live ? t("Ver este momento del vídeo") : t("Ver la tarjeta del vídeo"))}
+      <p class="def dim-${dimClass(b.dim)}"><strong>${esc(dimLabel(b.dim))}:</strong> ${t('la retroalimentación')} ${esc(t(DIMS[b.dim].def))}. <span>${esc(t(DIMS[b.dim].why))}</span></p></div>
     <div class="body">
       <h3 id="mh_${b.key}">${i + 1}. ${esc(t(b.name))}</h3>
       <p style="margin:6px 0 0"><span class="chip ${dimClass(b.dim)}">${esc(dimLabel(b.dim))}</span> ${b.live ? '' : '<span class="nolive">' + t("Explicado con una tarjeta, no se ve en vivo") + '</span>'}</p>
       <p class="what">${esc(t(b.what))}</p>
       <fieldset class="q"><legend class="qtext">${t("Este mecanismo ayuda a que la retroalimentación")} <strong>${esc(t(DIMS[b.dim].adj))}</strong>.</legend>
-        <p class="def dim-${dimClass(b.dim)}"><strong>${esc(dimLabel(b.dim))}:</strong> ${t('la retroalimentación')} ${esc(t(DIMS[b.dim].def))}. <span>${esc(t(DIMS[b.dim].why))}</span></p>${scale(`B_${b.key}_rel`)}</fieldset>
+        ${scale(`B_${b.key}_rel`)}</fieldset>
       <fieldset class="q"><legend class="qtext">${esc(t(B_INTR))}</legend>${scale(`B_${b.key}_intr`)}</fieldset>
     </div></section>`).join('');
   const integ = `<section class="card mech"><div class="vis"><img src="img/${B_INTEGRATED.img}" alt="${t("Tutor integrado en el espacio de diseño")}"><p class="see">${esc(t(B_INTEGRATED.see))}</p>${watchBtn(B_INTEGRATED.moment)}</div>
