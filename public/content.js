@@ -13,7 +13,7 @@ export const CHAPTERS = [
 export const MOMENTS = {
   chat: { t: T('q1'), len: 24 }, modelau: { t: T('s7'), len: 20 },
   cite: { t: T('s7') + 10, len: 12 }, highlight: { t: T('s8'), len: 15 }, single: { t: T('s7'), len: 14 },
-  scenario: { t: T('s10'), len: 16 }, nudge: { t: T('s2'), len: 12 }, edit: { t: T('s4'), len: 13 },
+  cap: { t: T('s10'), len: 16 }, nudge: { t: T('s2'), len: 12 }, edit: { t: T('s4'), len: 13 },
   step: { t: T('s1'), len: 14 }, vocab: { t: T('s9'), len: 20 }, integrated: { t: T('s5'), len: 14 },
 };
 
@@ -57,9 +57,9 @@ export const B = [
   { key: 'single', name: 'Un solo problema por respuesta', dim: 'Selectiva', img: 'single.png', moment: 'single', live: true,
     what: 'Cada respuesta se centra en un único problema, el más relevante en ese momento, y termina con una pregunta; los demás posibles problemas esperan a las siguientes interacciones.',
     see: 'La respuesta es corta, trata una sola cosa y termina con una pregunta; no dice qué hay que añadir.' },
-  { key: 'scenario', name: 'Un escenario cada vez (secuencia)', dim: 'Selectiva', img: 'scenario.png', moment: 'scenario', live: false,
-    what: 'En diagramas de secuencia con varios flujos (uno principal y otros alternativos), cada respuesta comenta un solo flujo, normalmente el principal, en lugar de mezclarlos todos a la vez.',
-    see: 'El vídeo usa solo diagramas de clases, así que este mecanismo se explica con una tarjeta pero no se ve funcionando. Puntúalo a partir de la descripción.' },
+  { key: 'cap', name: 'Como mucho tres señalados por respuesta', dim: 'Selectiva', img: 'cap.png', moment: 'cap', live: true,
+    what: 'Aunque el modelo quiera señalar más, el servidor recuadra como mucho tres elementos del diagrama en cada respuesta (y como mucho seis fragmentos del enunciado). Así lo que se marca se queda en una parte del problema que el estudiante puede abordar de una vez.',
+    see: 'Con un diagrama más avanzado, el estudiante pide que le muestre todas las clases que repiten datos. El modelo propuso cuatro (también Newcomer), pero solo se recuadran Member, Trainer y Receptionist.' },
   { key: 'nudge', name: 'Aviso por inactividad', dim: 'A tiempo', img: 'nudge.png', moment: 'nudge', live: true,
     what: 'Si el estudiante lleva unos minutos sin actividad y el diagrama sigue incompleto, junto al tutor aparece un bocadillo que le ofrece ayuda, sin abrir nada por su cuenta.',
     see: 'En el vídeo se acelera el tiempo: junto a UMLBuddy aparece «Feeling stuck? I can help you move on…». No abre nada por sí solo y desaparece en cuanto el estudiante edita.' },
@@ -76,7 +76,7 @@ export const B = [
 export const B_INTEGRATED = { key: 'integrated', img: 'integrated.png', moment: 'integrated',
   text: 'Que el tutor esté dentro del espacio de diseño, sin copiar el diagrama y el enunciado en otro chat, es útil para el estudiante.',
   see: 'El tutor se abre junto al formulario, el diagrama y el enunciado, y ya ve los tres: el estudiante no copia nada.' };
-export const B_INTR = 'Este mecanismo estorbaría al estudiante mientras modela. (Respóndelo como esperada: no has usado la herramienta.)';
+export const B_INTR = 'Este mecanismo estorbaría al estudiante mientras modela.';
 
 export const C = [
   ['relative', 'Preferiría que mis estudiantes usaran ModelaU antes que un chat generalista para estos ejercicios.'],
@@ -101,4 +101,6 @@ export const VARIABLES = [
   'B_integrated',
   ...C.map(c => `C_${c.key}`),
   ...D.map(d => d.id),
+  // Mechanism 4 was 'one scenario at a time' (sequence diagrams) until 2026-11-10; responses sent before then rated it here.
+  'B_scenario_rel', 'B_scenario_intr',
 ];

@@ -50,7 +50,7 @@ const post = (u, b) => fetch(u, { method: 'POST', headers: { 'Content-Type': 'ap
 const med = a => { const s = [...a].sort((x, y) => x - y); const m = s.length >> 1; return s.length ? (s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2) : null; };
 const label = v => {
   if (v.startsWith('A_')) { const a = A.find(x => v.startsWith(`A_${x.key}_`)); return `${v.endsWith('_mu') ? 'ModelaU' : 'Chat'} · ${a.label}`; }
-  if (v.startsWith('B_') && v !== 'B_integrated') { const b = B.find(x => v.startsWith(`B_${x.key}_`)); return `${b.name} · ${v.endsWith('_rel') ? 'relevancia' : 'estorbaría'}`; }
+  if (v.startsWith('B_') && v !== 'B_integrated') { const b = B.find(x => v.startsWith(`B_${x.key}_`)); return `${b ? b.name : 'Un escenario cada vez (antiguo mecanismo 4, respuestas antes del 10/11)'} · ${v.endsWith('_rel') ? 'relevancia' : 'estorbaría'}`; }
   if (v === 'B_integrated') return 'Todo en un mismo espacio';
   if (v.startsWith('C_')) return C.find(c => `C_${c.key}` === v).text;
   return v;
@@ -76,6 +76,10 @@ function showResponse(r, number) {
     answer(`${b.name}: ayuda a que la retroalimentación ${DIMS[b.dim].adj}.`, `B_${b.key}_rel`, true);
     answer(`${b.name}: estorbaría al estudiante mientras modela.`, `B_${b.key}_intr`, true);
   });
+  if (r.answers.B_scenario_rel !== undefined || r.answers.B_scenario_intr !== undefined) {   // old mechanism 4, answered before 10/11
+    answer('Un escenario cada vez (antiguo mecanismo 4): ayuda a que la retroalimentación sea selectiva.', 'B_scenario_rel', true);
+    answer('Un escenario cada vez (antiguo mecanismo 4): estorbaría al estudiante mientras modela.', 'B_scenario_intr', true);
+  }
   answer(B_INTEGRATED.text, 'B_integrated', true);
   detail.append(el('h3', { textContent: 'Utilidad y adopción' }));
   C.forEach(c => answer(c.text, `C_${c.key}`, true));

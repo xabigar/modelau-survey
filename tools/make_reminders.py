@@ -27,5 +27,5 @@ crop('vocab.png', 'frames/10_vocabulary.png', (776, 440, 1126, 580), [(12, 40, 3
 crop('integrated.png', 'frames/05_assistant_open.png', (0, 80, 1500, 950), [], 900)
 crop('a_modelau.png', 'frames/07_tutor_reply.png', (1120, 250, 1500, 540), [], 520)
 crop('a_chat.png', 'frames/09_conventional_chat_en.png', (0, 0, 1500, 760), [], 760)
-Image.open(SRC / 'cards/es/08_sequence_card.png').convert('RGB').crop((0, 0, 1500, 760)).resize((900, 456), Image.LANCZOS).save(OUT / 'scenario.png', optimize=True)
+crop('cap.png', 'frames/11_highlight_cap.png', (0, 300, 780, 900), [(10, 22, 299, 456)], 760)
 print('wrote', len(list(OUT.glob('*.png'))), 'images to', OUT)

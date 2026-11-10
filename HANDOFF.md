@@ -88,7 +88,7 @@ ADMIN_PASSWORD='una-larga-y-propia' REQUIRE_INVITE=1 PORT=3200 node server.js
 {"id":"uuid","day":"2027-01-15","version":"mu_first|chat_first","video_pct":0.98,"answers":{"exp_years":"6 a 10","A_specific_mu":5,"A_specific_chat":2,"B_cite_rel":3,"B_nudge_intr":3,"C_worry":null,"D_prefer":"La de ModelaU","D_why":"…"}}
 ```
 
-49 variables (`VARIABLES` en `content.js`): `exp_years, courses, ai_use, watched`; `A_{specific,selective,timely,context,withhold,correct,useful}_{mu,chat}`; `B_{cite,highlight,single,scenario,nudge,edit_checks,step,vocab}_{rel,intr}`, `B_integrated`; `C_{relative,useful,complex,compat,intent,worry}`; `D_prefer, D_why, D_liked, D_disliked, D_keep, D_missing, D_strict, D_unclear`.
+49 variables (`VARIABLES` en `content.js`): `exp_years, courses, ai_use, watched`; `A_{specific,selective,timely,context,withhold,correct,useful}_{mu,chat}`; `B_{cite,highlight,single,cap,nudge,edit_checks,step,vocab}_{rel,intr}`, `B_integrated`; al final, `B_scenario_{rel,intr}` (antiguo mecanismo 4, solo en respuestas anteriores al 10/11); `C_{relative,useful,complex,compat,intent,worry}`; `D_prefer, D_why, D_liked, D_disliked, D_keep, D_missing, D_strict, D_unclear`.
 
 **Privacidad**: no se guarda IP, cabecera ni user agent; no hay cookies; el día va sin hora. **Un proxy inverso delante puede registrar IPs: apagarlo o anonimizarlo.** El borrador vive en `localStorage` del navegador y se borra al enviar.
 

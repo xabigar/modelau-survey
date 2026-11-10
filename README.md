@@ -74,7 +74,7 @@ agents and sets no cookies; **a reverse proxy in front of it may log IPs: switch
 ## Notes
 
 - The video shows the conventional chat first (as the problem) and ModelaU afterwards; the order of the columns in part A is balanced by `version`.
-- Mechanism 4 (one scenario at a time) is only described on a card in the video; the page says so and the item is rated from the description.
+- Mechanism 4 is "at most three highlights per response" (the server keeps at most three diagram elements per reply; `lib.js`, `parseTutorReply`), shown live in the video. Until 2026-11-10 it was "one scenario at a time" (sequence diagrams only, described on a card); responses sent before then rated it in `B_scenario_rel`/`B_scenario_intr`, which stay at the end of `VARIABLES` so the export keeps them. The admin page labels them as the old mechanism 4.
 - Reminders in part B link to the exact moment of the video (`MOMENTS` in `public/content.js`, derived from `timeline.js`). If the video is
   re-rendered, run `node tools/sync_timeline.mjs && python3 tools/make_reminders.py` (the timeline is written by
   `modelau_latex/evaluation/demo/video/build.mjs` to `out/timeline.json`).
